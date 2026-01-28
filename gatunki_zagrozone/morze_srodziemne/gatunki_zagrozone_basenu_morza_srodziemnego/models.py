@@ -1,5 +1,8 @@
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.contrib.auth.models import User
+from django.utils import timezone
+
 
 #Obszar
 
@@ -88,7 +91,17 @@ class Species(models.Model):
     appearance = models.TextField(verbose_name="Wygląd")
     habitat_and_diet = models.TextField(verbose_name="Habitat i dieta")
     
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Data dodania do bazy")
+    
     countries = models.ManyToManyField(Country, verbose_name="Kraje występowania")
+
+    author = models.ForeignKey(
+        User, 
+        on_delete=models.SET_NULL, 
+        null=True, 
+        blank=True, 
+        verbose_name="Autor wpisu"
+    )
 
     def clean(self):
         if self.protection_actions:
@@ -106,9 +119,6 @@ class Species(models.Model):
 ####
 
 
-from django.contrib.auth.models import User
-from django.utils import timezone
-
 class Profile(models.Model):
     class Plec(models.IntegerChoices):
         KOBIETA = 1, 'Kobieta'
@@ -119,10 +129,10 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     
 
-    imie = models.CharField(max_length=20, blank=True)
-    nazwisko = models.CharField(max_length=20, blank=True)
+    imie = models.CharField(max_length=20, blank=False)
+    nazwisko = models.CharField(max_length=20, blank=False)
     plec = models.IntegerField(choices=Plec.choices, default=Plec.NIE_PODAJE)
-    wiek = models.IntegerField(null=True, blank=True)
+    wiek = models.IntegerField(null=False, blank=False)
     organizacja = models.TextField(blank=True, null=True, verbose_name="Działa w organizacji")
     opis = models.TextField(blank=True, null=True, verbose_name="Kilka słów o sobie")
     
@@ -130,8 +140,6 @@ class Profile(models.Model):
     data_utworzenia = models.DateTimeField(default=timezone.now)
 
     def get_ranga(self):
-        # Liczymy ile gatunków dodał ten użytkownik
-        # Zakładając, że w modelu Species masz pole 'author' połączone z User
         count = self.user.species_set.count()
         
         if count >= 100:
