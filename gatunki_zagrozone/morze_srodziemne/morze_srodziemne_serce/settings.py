@@ -49,7 +49,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'morze_srodziemne.urls'
+ROOT_URLCONF = 'morze_srodziemne_serce.urls'
 
 TEMPLATES = [
     {
@@ -66,7 +66,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'morze_srodziemne.wsgi.application'
+WSGI_APPLICATION = 'morze_srodziemne_serce.wsgi.application'
 
 
 # Database
