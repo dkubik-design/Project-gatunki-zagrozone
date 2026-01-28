@@ -103,6 +103,60 @@ class Species(models.Model):
 
 
 
+####
+
+
+from django.contrib.auth.models import User
+from django.utils import timezone
+
+class Profile(models.Model):
+    class Plec(models.IntegerChoices):
+        KOBIETA = 1, 'Kobieta'
+        MEZCZYZNA = 2, 'Mężczyzna'
+        NIE_PODAJE = 3, 'Nie chcę podawać'
+
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    
+
+    imie = models.CharField(max_length=20, blank=True)
+    nazwisko = models.CharField(max_length=20, blank=True)
+    plec = models.IntegerField(choices=Plec.choices, default=Plec.NIE_PODAJE)
+    wiek = models.IntegerField(null=True, blank=True)
+    organizacja = models.TextField(blank=True, null=True, verbose_name="Działa w organizacji")
+    opis = models.TextField(blank=True, null=True, verbose_name="Kilka słów o sobie")
+    
+    
+    data_utworzenia = models.DateTimeField(default=timezone.now)
+
+    def get_ranga(self):
+        # Liczymy ile gatunków dodał ten użytkownik
+        # Zakładając, że w modelu Species masz pole 'author' połączone z User
+        count = self.user.species_set.count()
+        
+        if count >= 100:
+            return "Aktywista Terrorysta"
+        elif count >= 50:
+            return "Przyjaciel Natury"
+        elif count >= 10:
+            return "E-kolog"
+        elif count >= 1:
+            return "Ekolog"
+        else:
+            return "Nowicjusz"
+
+    def __str__(self):
+        return f"Profil użytkownika {self.user.username}"
+
+
+
+
+
+
+
+
+
+
 
 
 
