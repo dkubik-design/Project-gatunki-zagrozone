@@ -1,0 +1,188 @@
+:root {
+    --bg-dark: #121212;
+    --bg-card: #1e1e1e;
+    --text-main: #e0e0e0;
+    --accent: #00adb5;
+    --accent-hover: #007d82;
+    --danger: #ff4b2b;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    overflow-x: hidden; /* Zapobiega pojawianiu się poziomego paska przewijania */
+}
+
+/* --- PASEK NAWIGACJI --- */
+.navbar {
+    background-color: var(--bg-card);
+    display: grid;
+    /* Układ 1fr auto 1fr trzyma logo idealnie na środku */
+    grid-template-columns: 1fr auto 1fr; 
+    align-items: center;
+    /* SKALOWANIE: Padding dąży do Twoich 1.2rem 2%, ale na małych ekranach się zmniejszy */
+    padding: clamp(0.8rem, 2vh, 1.2rem) clamp(2%, 3vw, 5%); 
+    box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    /* Opcjonalnie: przyklejenie paska do góry */
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+/* --- LEWA STRONA: WYSZUKIWARKA --- */
+.search-form {
+    justify-self: start;
+    display: flex;
+    gap: 10px;
+}
+
+.search-form input {
+    background: var(--bg-dark);
+    border: 1px solid #333;
+    color: white;
+    /* Skalowanie paddingu wewnątrz inputa */
+    padding: clamp(0.4rem, 0.6vw, 0.6rem) 1rem;
+    border-radius: 20px;
+    /* SKALOWANIE: Max 300px (Twój ideał), ale kurczy się do 150px na małych ekranach */
+    width: clamp(150px, 25vw, 300px); 
+    outline: none;
+    font-size: 1rem;
+    transition: width 0.3s ease;
+}
+
+.search-form button {
+    background-color: var(--accent);
+    color: white;
+    border: none;
+    padding: 0.6rem 1.4rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: background 0.3s;
+    white-space: nowrap; /* Zapobiega łamaniu tekstu przycisku */
+}
+
+/* --- ŚRODEK: LOGO (Twój ideał) --- */
+.nav-logo {
+    justify-self: center;
+    text-align: center;
+}
+
+.nav-logo a {
+    color: var(--accent);
+    /* SKALOWANIE: Dąży do 2.4rem, ale na telefonie zmniejszy się do 1.5rem */
+    font-size: clamp(1.5rem, 4vw, 2.4rem); 
+    /* Utrzymujemy Twoje lżejsze pogrubienie */
+    font-weight: 600; 
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    white-space: nowrap;
+}
+
+/* --- PRAWA STRONA: LINKI --- */
+.nav-links {
+    justify-self: end;
+    display: flex;
+    align-items: center;
+}
+
+.nav-links a {
+    color: var(--text-main);
+    text-decoration: none;
+    margin-left: clamp(10px, 2vw, 25px); /* Margines też się skaluje */
+    /* Tekst skaluje się minimalnie, by zawsze był czytelny */
+    font-size: clamp(0.9rem, 1.2vw, 1.2rem);
+    font-weight: 600;
+    transition: color 0.3s;
+    white-space: nowrap;
+}
+
+/* --- PRZYCISK DODAJ GATUNEK --- */
+.plus-icon {
+    margin-right: 5px;   
+    /* Jeśli używasz emoji, filter jest ok. Jeśli zmienisz na tekst "+", usuń filter i daj color: white */
+    filter: brightness(0) invert(1); 
+    font-weight: bold;
+}
+
+.btn-add {
+    background-color: var(--accent);
+    /* Zachowane Twoje paddingi: 6px góra/dół, 15px boki */
+    padding: 6px 15px !important; 
+    border-radius: 5px;
+    color: white !important;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    font-weight: 600; /* Spójne z resztą nawigacji */
+    white-space: nowrap;
+}
+
+.btn-add:hover, .search-form button:hover {
+    background-color: var(--accent-hover);
+}
+
+/* --- RESPONSIVE BREAKPOINTS (To sprawia, że strona działa na telefonach) --- */
+
+/* Tablet (poniżej 1024px) */
+@media (max-width: 1024px) {
+    .navbar {
+        padding: 1rem 2%;
+        gap: 10px;
+    }
+    /* Logo może się lekko zmniejszyć, by nie nachodzić na inne elementy */
+    .nav-logo a {
+        letter-spacing: 1px;
+    }
+}
+
+/* Telefon (poniżej 768px) */
+@media (max-width: 768px) {
+    .navbar {
+        /* Zmiana układu na pionowy (stack) */
+        grid-template-columns: 1fr; 
+        grid-template-rows: auto auto auto;
+        padding: 1rem;
+        gap: 15px;
+    }
+
+    .search-form, .nav-logo, .nav-links {
+        justify-self: center; /* Wszystko na środek */
+        width: 100%;
+        justify-content: center;
+    }
+
+    .search-form input {
+        width: 100%; /* Input na całą szerokość telefonu */
+    }
+    
+    .nav-links {
+        flex-wrap: wrap; /* Linki mogą przejść do nowej linii jeśli się nie zmieszczą */
+        justify-content: center;
+    }
+    
+    .nav-links a {
+        margin: 0 10px; /* Mniejsze odstępy na telefonie */
+    }
+}
+
+/* --- POZOSTAŁE STYLE (HERO / KARTY) --- */
+.card-link {
+    display: inline-block;
+    margin-top: 1rem;
+    color: var(--accent);
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.hero p {
+    font-size: 1.1rem;
+    color: #b0b0b0;
+    margin-bottom: 2rem;
+}

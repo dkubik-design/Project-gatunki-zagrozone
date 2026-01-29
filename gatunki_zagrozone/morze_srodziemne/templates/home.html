@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero">
+    <h1>Lista Gatunków Zagrożonych Basenu Morza Środziemnego</h1>
+    <p>
+        Strona ma charakter edukacyjny i jest poświęcona zwierzętom występującym w krajch południowej europy
+        czyli na terenach nie tak odległych od granic Polski. Tworzy ona bazę zwierząt żyjących na wolności 
+        oraz gatunków wymarłych w naturze. Każdy użytkownik internetu ma dotęp do wiedzy zebranej na tej 
+        stronie, a każdy członek grupy może pomóc współtowrzyć bazę wiedzy.
+    </p>
+</section>
+
+<div class="continents-grid">
+    
+    <a href="/europa/" class="continent-card">
+        <div class="card-image">🇪🇺</div>
+        <h3>Europa</h3>
+        <p>Znaleziono (11) krajów</p>
+        <span class="card-link">Przeglądaj &rarr;</span>
+    </a>
+
+    <a href="/azja/" class="continent-card">
+        <div class="card-image">🌏</div>
+        <h3>Azja</h3>
+        <p>Znaleziono (6) krajów</p>
+        <span class="card-link">Przeglądaj &rarr;</span>
+    </a>
+
+    <a href="/afryka/" class="continent-card">
+        <div class="card-image">🌍</div>
+        <h3>Afryka</h3>
+        <p>Znaleziono (5) krajów</p>
+        <span class="card-link">Przeglądaj &rarr;</span>
+    </a>
+
+</div>
+{% endblock %}
