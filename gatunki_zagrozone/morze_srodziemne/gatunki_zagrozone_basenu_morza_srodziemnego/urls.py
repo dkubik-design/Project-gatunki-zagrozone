@@ -5,6 +5,8 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('add-species/', views.dodaj_gatunek, name='add_species_url'),
     path('login/', views.zaloguj, name='login_url'),
+    path('logout/', views.wyloguj, name='logout_url'),
     path('profile/', views.profil, name='profile_url'),
+    path('register/', views.zarejestruj, name='register_url'),
 ]
 

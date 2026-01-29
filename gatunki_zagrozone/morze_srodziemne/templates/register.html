@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="register-container">
+    <h2>Stwórz konto</h2>
+    <form method="POST">
+        {% csrf_token %}
+
+        <h3>Dane konta</h3>
+        {% for field in user_form %}
+            <p>
+                {{ field.label_tag }}<br>
+                {{ field }}
+                {% if field.errors %}
+                    <span style="color: red; font-size: 0.9em;">{{ field.errors|striptags }}</span>
+                {% endif %}
+                {% if field.help_text %}
+                    <br><small style="color: gray;">{{ field.help_text|striptags }}</small>
+                {% endif %}
+            </p>
+        {% endfor %}
+
+        <hr>
+
+        <h3>Dane profilowe</h3>
+        {% for field in profile_form %}
+            <p>
+                {{ field.label_tag }}<br>
+                {{ field }}
+                {% if field.errors %}
+                    <span style="color: red; font-size: 0.9em;">{{ field.errors|striptags }}</span>
+                {% endif %}
+            </p>
+        {% endfor %}
+        
+        <button type="submit">Zarejestruj się</button>
+    </form>
+    <p>Masz już konto? <a href="{% url 'login_url' %}">Zaloguj się</a></p>
+</div>
+{% endblock %}
+
+

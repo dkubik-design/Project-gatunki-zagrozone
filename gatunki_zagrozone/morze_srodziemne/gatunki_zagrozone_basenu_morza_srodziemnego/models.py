@@ -2,6 +2,7 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 #Obszar
@@ -125,18 +126,23 @@ class Profile(models.Model):
         MEZCZYZNA = 2, 'Mężczyzna'
         NIE_PODAJE = 3, 'Nie chcę podawać'
 
-
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     
 
-    imie = models.CharField(max_length=20, blank=False)
-    nazwisko = models.CharField(max_length=20, blank=False)
+    imie = models.CharField(max_length=20, blank=False, null=False)
+    nazwisko = models.CharField(max_length=20, blank=False, null=False)
     plec = models.IntegerField(choices=Plec.choices, default=Plec.NIE_PODAJE)
-    wiek = models.IntegerField(null=False, blank=False)
+    wiek = models.IntegerField(
+        validators=[
+            MinValueValidator(0, message="Dziwne"), 
+            MaxValueValidator(99, message="Nie sądzę ,że jesteś aż tak stary")
+        ],
+        blank=False, 
+        null=False
+    )
     organizacja = models.TextField(blank=True, null=True, verbose_name="Działa w organizacji")
     opis = models.TextField(blank=True, null=True, verbose_name="Kilka słów o sobie")
-    
-    
+
     data_utworzenia = models.DateTimeField(default=timezone.now)
 
     def get_ranga(self):
